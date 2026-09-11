@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Miku Dev Portfolio</title>
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-image: linear-gradient(rgba(12, 15, 18, 0.8), rgba(5, 6, 8, 0.8)), 
+                              url('/static/miku.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            background: rgba(20, 24, 30, 0.85);
+            padding: 40px;
+            border-radius: 16px;
+            border: 2px solid #39c5bb;
+            box-shadow: 0 0 25px rgba(57, 197, 187, 0.3);
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        .miku-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: #1a232a;
+            border: 3px solid #39c5bb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+            color: #39c5bb;
+            font-size: 32px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(57, 197, 187, 0.6);
+        }
+
+        h1 { 
+            color: #ffffff; 
+            margin-bottom: 5px;
+            font-size: 28px;
+        }
+        
+        .sub-title {
+            color: #39c5bb;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        p {
+            color: #b0b5b9;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(26, 35, 42, 0.6);
+            color: #ffffff;
+            border: 1px solid #2c3e50;
+            padding: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn.tg:hover { border-color: #0088cc; box-shadow: 0 0 12px rgba(0, 136, 204, 0.4); color: #0088cc; }
+        .social-btn.ds:hover { border-color: #5865F2; box-shadow: 0 0 12px rgba(88, 101, 242, 0.4); color: #5865F2; }
+        .social-btn.tw:hover { border-color: #9146FF; box-shadow: 0 0 12px rgba(145, 70, 255, 0.4); color: #9146FF; }
+        .social-btn.yt:hover { border-color: #ff0000; box-shadow: 0 0 12px rgba(255, 0, 0, 0.4); color: #ff0000; }
+
+        .social-btn:hover {
+            transform: translateY(-2px);
+            background: #1a232a;
+        }
+
+        .btn {
+            display: inline-block;
+            background: transparent;
+            color: #39c5bb;
+            border: 2px solid #39c5bb;
+            padding: 12px 28px;
+            text-decoration: none;
+            border-radius: 30px;
+            margin-top: 30px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(57, 197, 187, 0.1);
+            width: 80%;
+        }
+
+        .btn:hover {
+            background: #39c5bb;
+            color: #0c0f12;
+            box-shadow: 0 0 20px rgba(57, 197, 187, 0.6);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="miku-avatar">01</div>
+        <h1>Miku Dev Terminal</h1>
+        <div class="sub-title">Python Developer</div>
+        <p>Добро пожаловать в моё цифровое пространство.<br>Мои соцсети:</p>
+        
+        <div class="social-grid">
+            <!-- Замените '#' на свои настоящие ссылки (например: https://t.me) -->
+            <a href="@wasteryy" target="_blank" class="social-btn tg">
+                <i class="fab fa-telegram"></i> Telegram
+            </a>
+            <a href="https://discord.gg/bESWh3Hpsy" target="_blank" class="social-btn ds">
+                <i class="fab fa-discord"></i> Discord
+            </a>
+            <a href="https://www.twitch.tv/wastery0" target="_blank" class="social-btn tw">
+                <i class="fab fa-twitch"></i> Twitch
+            </a>
+            <a href="https://www.youtube.com/@WasTerY" target="_blank" class="social-btn yt">
+                <i class="fab fa-youtube"></i> YouTube
+            </a>
+        </div>
+
+        <a href="/projects" class="btn">ИССЛЕДОВАТЬ ПРОЕКТЫ</a>
+    </div>
+
+</body>
+</html>

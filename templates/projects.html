@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Miku Projects</title>
+    <style>
+            body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-image: linear-gradient(rgba(12, 15, 18, 0.8), rgba(5, 6, 8, 0.8)), 
+                              url('/static/miku.jpg');
+            background-size: cover;
+            background-position: center top;
+            background-attachment: fixed;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 50px 20px 80px 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+
+        .container {
+        max-width: 650px;
+        width: 100%;
+        margin: 0 auto;
+        }
+
+        h1 { 
+            color: #ffffff; 
+            text-align: center; 
+            font-size: 32px;
+            margin-bottom: 40px;
+            text-shadow: 0 0 15px rgba(57, 197, 187, 0.4);
+        }
+        
+        .project-card {
+            background: #14181e;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #39c5bb;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 25px;
+        }
+        h2 { 
+            color: #39c5bb; 
+            margin-top: 0; 
+            font-size: 22px;
+        }
+        p { color: #b0b5b9; line-height: 1.6; }
+
+        input[type="text"], textarea {
+            background: #0c0f12;
+            border: 1px solid #2c3e50;
+            color: #ffffff;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: inherit;
+            transition: border 0.3s;
+        }
+        input[type="text"]:focus, textarea:focus {
+            border-color: #39c5bb;
+            outline: none;
+            box-shadow: 0 0 8px rgba(57, 197, 187, 0.2);
+        }
+
+        .submit-btn {
+            background: transparent;
+            color: #2ecc71;
+            border: 2px solid #2ecc71;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .submit-btn:hover {
+            background: #2ecc71;
+            color: #0c0f12;
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.5);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .back-link:hover { color: #39c5bb; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎮 Цифровое Портфолио</h1>
+
+        <div class="project-card">
+            <h2>🔢 Модуль: «Угадай число»</h2>
+            <p>Консольный алгоритм с адаптивным выбором диапазонов чисел, лимитом на количество ходов и обработчиком исключений ValueError для защиты ядра от краша.</p>
+            <a href="/static/games/guess number.py" download class="submit-btn" style="text-decoration: none; display: inline-block; margin-top: 10px; font-size: 14px; padding: 8px 15px;">Скачать .py скрипт</a>
+            <a href="/play_guess" class="submit-btn" style="text-decoration: none; display: inline-block; margin-top: 15px; font-size: 14px; padding: 10px 20px; color: #39c5bb; border-color: #39c5bb;">ПОИГРАТЬ В БРАУЗЕРЕ</a>
+        </div>
+
+        <div class="project-card">
+            <h2>🏓 Модуль: «Пинг-Понг»</h2>
+            <p>2D-симуляция на фреймворке Pygame. Интегрировано потоковое считывание клавиатуры, физический движок обработки коллизий и автономный ИИ-противник.</p>
+            <a href="/static/games/ping pong.py" download class="submit-btn" style="text-decoration: none; display: inline-block; margin-top: 10px; font-size: 14px; padding: 8px 15px;">Скачать исходный код</a>
+            <a href="/play_pong" class="submit-btn" style="text-decoration: none; display: inline-block; margin-top: 15px; font-size: 14px; padding: 10px 20px; color: #39c5bb; border-color: #39c5bb;">ПОИГРАТЬ В БРАУЗЕРЕ</a>
+        </div>
+
+
+        <div class="project-card" style="border-left-color: #2ecc71;">
+            <h2 style="color: #2ecc71;">✍️ Оставить лог обратной связи</h2>
+            <form action="/send_message" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+                <input type="text" name="username" placeholder="Ваш идентификатор (Имя)" required>
+                <textarea name="usertext" placeholder="Введите сообщение для записи в лог..." rows="4" required style="resize: none;"></textarea>
+                <button type="submit" class="submit-btn">ОТПРАВИТЬ ОТЗЫВ</button>
+            </form>
+        </div>
+
+        <a href="/" class="back-link">← Вернуться в главный терминал</a>
+    </div>
+
+</body>
+</html>
