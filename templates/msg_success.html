@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Miku Status: OK</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-image: linear-gradient(rgba(12, 15, 18, 0.8), rgba(5, 6, 8, 0.8)), url('/static/miku.jpg');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: #e0e0e0; margin: 0; padding: 50px 20px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; box-sizing: border-box;
+        }
+        .card {
+            background: #14181e; padding: 40px; border-radius: 16px;
+            border: 2px solid #2ecc71; /* Зеленая рамка успеха */
+            box-shadow: 0 0 25px rgba(46, 204, 113, 0.3);
+            text-align: center; max-width: 450px; width: 100%;
+        }
+        p { font-family: 'Courier New', Courier, monospace; color: #2ecc71; text-shadow: 0 0 5px rgba(46, 204, 113, 0.5); font-size: 18px; }
+        .btn {
+            display: inline-block; background: transparent; color: #2ecc71; border: 2px solid #2ecc71;
+            padding: 10px 25px; text-decoration: none; border-radius: 30px; font-weight: bold; margin-top: 20px; transition: all 0.3s;
+        }
+        .btn:hover { background: #2ecc71; color: #0c0f12; box-shadow: 0 0 15px #2ecc71; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <p>[ СТАТУС: УСПЕШНО ]</p>
+        <p>Ваш отзыв успешно записан в бортовой журнал терминала. Спасибо за фидбек! 🩵</p>
+        <a href="/projects" class="btn">ВЕРНУТЬСЯ НА САЙТ</a>
+    </div>
+</body>
+</html>
