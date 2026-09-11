@@ -1,9 +1,8 @@
 import pygame
 import sys
 import random
-import asyncio # Импортируем асинхронность
+import asyncio
 
-# 1. Инициализация и настройки (БЕЗ отступов, в самом начале)
 pygame.init()
 
 width = 800
@@ -25,20 +24,15 @@ score_left = 0
 score_right = 0
 game_font = pygame.font.Font(None, 74)
 
-# 2. Объявляем асинхронную функцию
 async def main():
-    # Говорим функции использовать глобальные переменные скоростей и счета
     global ball_speed_x, ball_speed_y, score_left, score_right
 
-    # НАЧИНАЕТСЯ ИГРОВОЙ ЦИКЛ (все строки ниже сдвинуты вправо!)
     while True:
-        # Проверка закрытия окна
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
-        # --- Считываем нажатия клавиш (теперь это внутри цикла!) ---
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_w] and left_paddle.top > 0:
@@ -46,26 +40,22 @@ async def main():
         if keys[pygame.K_s] and left_paddle.bottom < height:
             left_paddle.y += 7
 
-        # --- ИИ Правой ракетки ---
         if right_paddle.centery < ball.centery and right_paddle.bottom < height:
             right_paddle.y += 5
         if right_paddle.centery > ball.centery and right_paddle.top > 0:
             right_paddle.y -= 5
 
-        # --- Движение мяча и физика границ ---
         ball.x += ball_speed_x
         ball.y += ball_speed_y
 
         if ball.top <= 0 or ball.bottom >= height:
             ball_speed_y *= -1
 
-        # Физика отскока от ракеток
         if ball.colliderect(left_paddle) and ball_speed_x < 0:
             ball_speed_x *= -1
         if ball.colliderect(right_paddle) and ball_speed_x > 0:
             ball_speed_x *= -1
 
-        # Подсчет очков при вылете за экран
         if ball.left <= 0:
             score_right += 1
             ball.x = width // 2 - 7
@@ -77,10 +67,8 @@ async def main():
             ball.y = height // 2 - 7
             ball_speed_x *= -1
 
-        # --- Отрисовка графики ---
-        screen.fill((0, 0, 0)) # Очищаем экран в черный
+        screen.fill((0, 0, 0))
 
-        # Рендерим и выводим счет
         text_left = game_font.render(str(score_left), True, (255, 255, 255))
         text_right = game_font.render(str(score_right), True, (255, 255, 255))
         screen.blit(text_left, (width // 2 - 100, 20))
@@ -91,11 +79,9 @@ async def main():
         pygame.draw.rect(screen, (255, 255, 255), right_paddle)
         pygame.draw.rect(screen, (255, 255, 255), ball)
 
-        pygame.display.flip() # Обновляем экран
-        clock.tick(60)        # Держим 60 FPS
+        pygame.display.flip()
+        clock.tick(60)
         
-        # ВАЖНО: Асинхронная пауза в самом конце цикла while!
         await asyncio.sleep(0) 
 
-# 3. ЗАПУСК ВСЕЙ ПРОГРАММЫ (БЕЗ отступов, в самом конце файла)
 asyncio.run(main())
