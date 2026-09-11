@@ -53,13 +53,16 @@ def check_number():
             message = f'Загаданное число МЕНЬШЕ, чем {user_guess}!'
             
         if attempts >= 7 and not game_over:
-            message = f'❌ Попытки кончились! Вы проиграли. Было загадано число {secret}.'
+            message = f'Попытки кончились! Вы проиграли. Было загадано число {secret}.'
             game_over = True
             
     except (ValueError, TypeError):
         secret = request.form.get('secret', type=int)
         attempts = request.form.get('attempts', type=int, default=0)
-        message = '⚠️ Пожалуйста, введите корректное число!'
+        message = 'Пожалуйста, введите корректное число!'
         game_over = False
 
     return redirect(f'/play_guess?secret={secret}&attempts={attempts}&message={message}&game_over={game_over}')
+
+if __name__ == '__main__':
+    app.run(debug=True)
