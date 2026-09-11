@@ -62,7 +62,7 @@ def check_number():
         message = 'Пожалуйста, введите корректное число!'
         game_over = False
 
-    return redirect(f'/play_guess?secret={secret}&attempts={attempts}&message={message}&game_over={game_over}')
+    return render_template('guess_game.html', secret=secret, attempts=attempts, message=message, game_over=game_over)
 
 if __name__ == '__main__':
     app.run(debug=True)
