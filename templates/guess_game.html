@@ -113,6 +113,8 @@
             <!-- Если игра НЕ окончена, показываем форму ввода числа -->
             {% if not game_over %}
             <form action="/check_number" method="POST">
+                 <input type="hidden" name="secret" value="{{ secret }}">
+                <input type="hidden" name="attempts" value="{{ attempts }}">
                 <input type="text" name="user_number" placeholder="Введите ваше число" autofocus required autocomplete="off">
                 <br>
                 <button type="submit" class="btn">ПРОВЕРИТЬ</button>

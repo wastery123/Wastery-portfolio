@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect
+import random
 
 app = Flask(__name__)
-app.secret_key = 'wastery_secret_key_miku_dev_terminal'
 
 @app.route('/')
 def home():
@@ -11,67 +11,55 @@ def home():
 def projects():
     return render_template('projects.html')
 
+@app.route('/play_pong')
+def play_pong():
+    return render_template('pong_game.html')
+
 @app.route('/send_message', methods=['POST'])
 def send_message():
     name = request.form.get('username')
     text = request.form.get('usertext')
-    
-    with open('messages.txt', 'a', encoding='utf-8') as file:
-        file.write(f"Имя: {name} | Отзыв: {text}\n")
-        file.write("-" * 30 + "\n")
-        
-    print(f"--- ПОЛУЧЕН НОВЫЙ ОТЗЫВ ОТ {name}! ---")
-    
+    with open('/tmp/messages.txt', 'a', encoding='utf-8') as file:
+        file.write(f"Имя: {name} | Отзыв: {text}\n------------------------------\n")
     return redirect('/projects')
 
-import random
-
-# Страница самой онлайн-игры
 @app.route('/play_guess')
 def play_guess():
-    # Если игра только началась и числа в памяти нет — генерируем его
-    if 'secret_number' not in session:
-        session['secret_number'] = random.randint(1, 100) # пока зафиксируем от 1 до 100
-        session['attempts'] = 0
-        session['message'] = 'Компьютер загадал число от 1 до 100. Угадай его!'
-        session['game_over'] = False
+    secret = request.args.get('secret', type=int)
+    attempts = request.args.get('attempts', type=int, default=0)
+    message = request.args.get('message', default='Компьютер загадал число от 1 до 100. Угадай его!')
+    game_over = request.args.get('game_over', default='False') == 'True'
+    
+    if not secret:
+        secret = random.randint(1, 100)
+        return redirect(f'/play_guess?secret={secret}&attempts=0&message=Компьютер загадал число от 1 до 100. Угадай его!')
 
-    return render_template('guess_game.html', 
-                           message=session['message'], 
-                           attempts=session['attempts'],
-                           game_over=session['game_over'])
+    return render_template('guess_game.html', secret=secret, attempts=attempts, message=message, game_over=game_over)
 
 @app.route('/check_number', methods=['POST'])
 def check_number():
     try:
         user_guess = int(request.form.get('user_number'))
-        session['attempts'] += 1
+        secret = request.form.get('secret', type=int)
+        attempts = request.form.get('attempts', type=int, default=0) + 1
+        game_over = False
         
-        if user_guess == session['secret_number']:
-            session['message'] = f'Поздравляю! Вы угадали число за {session["attempts"]} попыток!'
-            session['game_over'] = True
-        elif user_guess < session['secret_number']:
-            session['message'] = f'Загаданное число БОЛЬШЕ, чем {user_guess}!'
+        if user_guess == secret:
+            message = f'Поздравляю! Вы угадали число за {attempts} попыток!'
+            game_over = True
+        elif user_guess < secret:
+            message = f'Загаданное число БОЛЬШЕ, чем {user_guess}!'
         else:
-            session['message'] = f'Загаданное число МЕНЬШЕ, чем {user_guess}!'
-
-        if session['attempts'] >= 7 and not session['game_over']:
-            session['message'] = f'Попытки кончились! Вы проиграли. Было загадано число {session["secret_number"]}.'
-            session['game_over'] = True
+            message = f'Загаданное число МЕНЬШЕ, чем {user_guess}!'
             
-    except ValueError:
-        session['message'] = 'Пожалуйста, введите корректное число!'
+        if attempts >= 7 and not game_over:
+            message = f'❌ Попытки кончились! Вы проиграли. Было загадано число {secret}.'
+            game_over = True
+            
+    except (ValueError, TypeError):
+        secret = request.form.get('secret', type=int)
+        attempts = request.form.get('attempts', type=int, default=0)
+        message = '⚠️ Пожалуйста, введите корректное число!'
+        game_over = False
 
-    return redirect('/play_guess')
-
-@app.route('/reset_guess')
-def reset_guess():
-    session.pop('secret_number', None)
-    return redirect('/play_guess')
-
-@app.route('/play_pong')
-def play_pong():
-    return render_template('pong_game.html')
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    return redirect(f'/play_guess?secret={secret}&attempts={attempts}&message={message}&game_over={game_over}')
