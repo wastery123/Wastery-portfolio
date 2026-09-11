@@ -4,129 +4,106 @@
     <meta charset="UTF-8">
     <title>Miku Guess Game</title>
     <style>
-                body {
+        body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background-image: linear-gradient(rgba(12, 15, 18, 0.8), rgba(5, 6, 8, 0.8)), 
-                              url('/static/miku.jpg');
+            background-image: linear-gradient(rgba(12, 15, 18, 0.8), rgba(5, 6, 8, 0.8)), url('/static/miku.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             color: #e0e0e0;
             margin: 0;
-            padding: 50px 20px 80px 20px; /* Отступы со всех сторон, чтобы карточка не прижималась */
-            min-height: 100vh; /* Растягиваем фон строго на 100% высоты экрана */
-            box-sizing: border-box; /* Защита от сломанных отступов */
+            padding: 50px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
         }
-        .container {
-            max-width: 500px;
-            width: 100%;
-            margin: 0 auto;
-        }
-        h1 { 
-            color: #ffffff; 
-            text-align: center; 
-            font-size: 32px;
-            text-shadow: 0 0 15px rgba(57, 197, 187, 0.4);
-        }
-        .game-card {
-            background: #14181e;
-            padding: 30px;
-            border-radius: 12px;
-            border: 2px solid #39c5bb;
-            box-shadow: 0 4px 20px rgba(57, 197, 187, 0.2);
-            text-align: center;
-        }
-        .status-msg {
-            font-size: 18px;
-            color: #ffffff;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-        .attempts-count {
-            color: #39c5bb;
-            font-weight: bold;
-            margin-bottom: 25px;
-        }
-        input[type="text"] {
-            background: #0c0f12;
-            border: 1px solid #2c3e50;
-            color: #ffffff;
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 18px;
-            width: 80%;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-        input[type="text"]:focus {
-            border-color: #39c5bb;
-            outline: none;
-            box-shadow: 0 0 8px rgba(57, 197, 187, 0.3);
-        }
-        .btn {
-            background: transparent;
-            color: #39c5bb;
-            border: 2px solid #39c5bb;
-            padding: 12px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-        .btn:hover {
-            background: #39c5bb;
-            color: #0c0f12;
-            box-shadow: 0 0 15px rgba(57, 197, 187, 0.5);
-        }
-        .btn-reset {
-            color: #2ecc71;
-            border-color: #2ecc71;
-        }
-        .btn-reset:hover {
-            background: #2ecc71;
-            box-shadow: 0 0 15px rgba(46, 204, 113, 0.5);
-        }
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 30px;
-            color: #7f8c8d;
-            text-decoration: none;
-        }
+        .container { max-width: 500px; width: 100%; margin: 0 auto; }
+        h1 { color: #ffffff; text-align: center; font-size: 32px; text-shadow: 0 0 15px rgba(57, 197, 187, 0.4); }
+        .game-card { background: #14181e; padding: 30px; border-radius: 12px; border: 2px solid #39c5bb; box-shadow: 0 4px 20px rgba(57, 197, 187, 0.2); text-align: center; }
+        .status-msg { font-size: 18px; color: #ffffff; margin-bottom: 20px; line-height: 1.5; }
+        .attempts-count { color: #39c5bb; font-weight: bold; margin-bottom: 25px; }
+        input[type="number"] { background: #0c0f12; border: 1px solid #2c3e50; color: #ffffff; padding: 12px; border-radius: 6px; font-size: 18px; width: 80%; text-align: center; margin-bottom: 15px; }
+        input[type="number"]:focus { border-color: #39c5bb; outline: none; box-shadow: 0 0 8px rgba(57, 197, 187, 0.3); }
+        .btn { background: transparent; color: #39c5bb; border: 2px solid #39c5bb; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-size: 16px; font-weight: bold; transition: all 0.3s; text-decoration: none; display: inline-block; }
+        .btn:hover { background: #39c5bb; color: #0c0f12; box-shadow: 0 0 15px rgba(57, 197, 187, 0.5); }
+        .btn-reset { color: #2ecc71; border-color: #2ecc71; display: none; margin: 0 auto; }
+        .btn-reset:hover { background: #2ecc71; box-shadow: 0 0 15px rgba(46, 204, 113, 0.5); }
+        .back-link { display: block; text-align: center; margin-top: 30px; color: #7f8c8d; text-decoration: none; }
         .back-link:hover { color: #39c5bb; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Онлайн-модуль: Угадайка</h1>
+        <h1>🔢 Онлайн-модуль: Угадайка</h1>
 
         <div class="game-card">
-            <!-- Сюда Flask будет подставлять сообщения вроде "Больше" или "Меньше" -->
-            <p class="status-msg">{{ message }}</p>
-            <p class="attempts-count">Использовано попыток: {{ attempts }} из 7</p>
+            <p id="message" class="status-msg">Компьютер загадал число от 1 до 100. Угадай его!</p>
+            <p id="attempts-text" class="attempts-count">Использовано попыток: 0 из 7</p>
 
-            <!-- Если игра НЕ окончена, показываем форму ввода числа -->
-            {% if not game_over %}
-            <form action="/check_number" method="POST">
-                 <input type="hidden" name="secret" value="{{ secret }}">
-                <input type="hidden" name="attempts" value="{{ attempts }}">
-                <input type="text" name="user_number" placeholder="Введите ваше число" autofocus required autocomplete="off">
+            <div id="input-area">
+                <input type="number" id="user-number" placeholder="Введите ваше число" min="1" max="100" required>
                 <br>
-                <button type="submit" class="btn">ПРОВЕРИТЬ</button>
-            </form>
-            {% else %}
-            <!-- Если игра окончена, прячем ввод и показываем кнопку "Сыграть еще раз" -->
-            <a href="/reset_guess" class="btn id btn-reset" style="text-decoration: none; display: inline-block;">СЫГРАТЬ ЕЩЕ РАЗ</a>
-            {% endif %}
+                <button onclick="checkNumber()" class="btn">ПРОВЕРИТЬ</button>
+            </div>
+
+            <button onclick="resetGame()" id="reset-btn" class="btn btn-reset">СЫГРАТЬ ЕЩЕ РАЗ</button>
         </div>
 
         <a href="/projects" class="back-link">← Вернуться в терминал проектов</a>
     </div>
 
+    <!-- Интерактивная логика игры прямо в браузере -->
+    <script>
+        let secretNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+        const maxAttempts = 7;
+
+        function checkNumber() {
+            const inputElement = document.getElementById('user-number');
+            const userGuess = parseInt(inputElement.value);
+            
+            if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+                document.getElementById('message').innerText = '⚠️ Пожалуйста, введите число от 1 до 100!';
+                return;
+            }
+
+            attempts++;
+            document.getElementById('attempts-text').innerText = `Использовано попыток: ${attempts} из ${maxAttempts}`;
+
+            if (userGuess === secretNumber) {
+                document.getElementById('message').innerText = `🎉 Поздравляю! Вы угадали число за ${attempts} попыток!`;
+                endGame();
+            } else if (userGuess < secretNumber) {
+                document.getElementById('message').innerText = `📉 Загаданное число БОЛЬШЕ, чем ${userGuess}!`;
+            } else {
+                document.getElementById('message').innerText = `📈 Загаданное число МЕНЬШЕ, чем ${userGuess}!`;
+            }
+
+            if (attempts >= maxAttempts && userGuess !== secretNumber) {
+                document.getElementById('message').innerText = `❌ Попытки кончились! Вы проиграли. Было загадано число ${secretNumber}.`;
+                endGame();
+            }
+
+            inputElement.value = '';
+            inputElement.focus();
+        }
+
+        function endGame() {
+            document.getElementById('input-area').style.display = 'none';
+            document.getElementById('reset-btn').style.display = 'block';
+        }
+
+        function resetGame() {
+            secretNumber = Math.floor(Math.random() * 100) + 1;
+            attempts = 0;
+            document.getElementById('message').innerText = 'Компьютер загадал число от 1 до 100. Угадай его!';
+            document.getElementById('attempts-text').innerText = `Использовано попыток: 0 из ${maxAttempts}`;
+            document.getElementById('input-area').style.display = 'block';
+            document.getElementById('reset-btn').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
