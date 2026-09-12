@@ -1,3 +1,6 @@
+import os
+from pathlib import Path
+
 from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
@@ -35,7 +38,7 @@ def send_message():
         if not name or not text:
             return redirect('/msg_error')
             
-        path = '/home/wastery/Wastery-portfolio/messages.txt'
+        path = Path('/tmp/messages.txt') if os.getenv('VERCEL') else Path(__file__).with_name('messages.txt')
         
         with open(path, 'a', encoding='utf-8') as file:
             file.write(f"Имя: {name} | Отзыв: {text}\n------------------------------\n")
